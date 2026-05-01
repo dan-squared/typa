@@ -271,5 +271,10 @@ Typa aims to balance:
 - low-friction practice
 - readable analytics
 - local ownership of data
-
+  
+## Credits & Inspiration
+Typa stands on the shoulders of giants. This project is built with deep appreciation for:
+- **Keybr**: For the foundational philosophy of adaptive, algorithmic typing practice.
+- **Protypist**: For proving that a typing tool can be a premium, beautiful macOS citizen.
+  
 The project is intentionally not a clone of browser typing-test sites. The goal is a native trainer that can help you improve over repeated sessions while still feeling fast, quiet, and configurable.
