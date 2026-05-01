@@ -1,8 +1,4 @@
-<p align="center">
-  <img src="Resources/typa%20logo.png" width="128" height="128" alt="Typa Logo" />
-</p>
-
-# Typa
+# <img src="Resources/typa%20logo.png" width="48" align="center" /> Typa
 
 Typa is a macOS typing trainer focused on adaptive practice, local-first progress tracking, and a calmer visual rhythm than typical speed-test apps.
 
