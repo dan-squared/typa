@@ -1,0 +1,30 @@
+# Xcode
+#
+build/
+DerivedData/
+*.hmap
+*.ipa
+*.plist.bak
+*.xcworkspace/xcuserdata/
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/
+*.xcresult/
+
+# macOS
+#
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+
+# Swift Package Manager
+#
+.build/
+.swiftpm/
+
+# User Settings
+#
+xcuserdata/
+*.xcuserstate

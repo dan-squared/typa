@@ -1,0 +1,687 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D1A4B2014C21000100A00001 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = D1A4B2004C21000100A00001 /* AppIcon.icon */; };
+		D345CD742F75A71800E982A4 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D345CD582F75A71800E982A4 /* AppState.swift */; };
+		D345CD752F75A71800E982A4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D345CD592F75A71800E982A4 /* ContentView.swift */; };
+		D345CD762F75A71800E982A4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D345CD5B2F75A71800E982A4 /* SettingsView.swift */; };
+		D345CD772F75A71800E982A4 /* TypaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D345CD5C2F75A71800E982A4 /* TypaApp.swift */; };
+		D345CD782F75A71800E982A4 /* TypingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D345CD5D2F75A71800E982A4 /* TypingView.swift */; };
+		D345CD792F75A71800E982A4 /* Words.swift in Sources */ = {isa = PBXBuildFile; fileRef = D345CD5E2F75A71800E982A4 /* Words.swift */; };
+		D36518FF2F91344100B63015 /* OnboardingIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36518FE2F91344100B63015 /* OnboardingIntroView.swift */; };
+		D36519012F91344200B63015 /* WindowAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36519002F91344200B63015 /* WindowAccessor.swift */; };
+		D39E2E572F73309400A72B4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D39E2E562F73309400A72B4A /* Assets.xcassets */; };
+		D3F363BA2F76C1A5005E29DF /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F363B92F76C1A5005E29DF /* DesignSystem.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D39E2E5D2F73309400A72B4A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D39E2E472F73309300A72B4A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D39E2E4E2F73309300A72B4A;
+			remoteInfo = Typer;
+		};
+		D39E2E672F73309400A72B4A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D39E2E472F73309300A72B4A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D39E2E4E2F73309300A72B4A;
+			remoteInfo = Typer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D1A4B2004C21000100A00001 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		D345CD582F75A71800E982A4 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		D345CD592F75A71800E982A4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D345CD5A2F75A71800E982A4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D345CD5B2F75A71800E982A4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		D345CD5C2F75A71800E982A4 /* TypaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypaApp.swift; sourceTree = "<group>"; };
+		D345CD5D2F75A71800E982A4 /* TypingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingView.swift; sourceTree = "<group>"; };
+		D345CD5E2F75A71800E982A4 /* Words.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Words.swift; sourceTree = "<group>"; };
+		D36518FE2F91344100B63015 /* OnboardingIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingIntroView.swift; sourceTree = "<group>"; };
+		D36519002F91344200B63015 /* WindowAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowAccessor.swift; sourceTree = "<group>"; };
+		D39E2E4F2F73309300A72B4A /* Typa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Typa.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D39E2E562F73309400A72B4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D39E2E5C2F73309400A72B4A /* TyperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TyperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D39E2E662F73309400A72B4A /* TyperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TyperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3F363B92F76C1A5005E29DF /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		D345CD802F75A73A00E982A4 /* Models */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D345CD892F75A73A00E982A4 /* Views */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D39E2E5F2F73309400A72B4A /* TyperTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TyperTests;
+			sourceTree = "<group>";
+		};
+		D3C78F2D2F75A7700032ED54 /* Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D48F0B713A112B6300A00001 /* Swift */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Swift;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D39E2E4C2F73309300A72B4A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D39E2E592F73309400A72B4A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D39E2E632F73309400A72B4A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D39E2E462F73309300A72B4A = {
+			isa = PBXGroup;
+			children = (
+				D39E2E562F73309400A72B4A /* Assets.xcassets */,
+				D1A4B2004C21000100A00001 /* AppIcon.icon */,
+				D3C78F2D2F75A7700032ED54 /* Resources */,
+				D345CD802F75A73A00E982A4 /* Models */,
+				D345CD892F75A73A00E982A4 /* Views */,
+				D48F0B713A112B6300A00001 /* Swift */,
+				D3F363B92F76C1A5005E29DF /* DesignSystem.swift */,
+				D345CD582F75A71800E982A4 /* AppState.swift */,
+				D345CD592F75A71800E982A4 /* ContentView.swift */,
+				D345CD5A2F75A71800E982A4 /* README.md */,
+				D345CD5B2F75A71800E982A4 /* SettingsView.swift */,
+				D345CD5C2F75A71800E982A4 /* TypaApp.swift */,
+				D345CD5D2F75A71800E982A4 /* TypingView.swift */,
+				D345CD5E2F75A71800E982A4 /* Words.swift */,
+				D39E2E5F2F73309400A72B4A /* TyperTests */,
+				D39E2E502F73309300A72B4A /* Products */,
+				D36518FE2F91344100B63015 /* OnboardingIntroView.swift */,
+				D36519002F91344200B63015 /* WindowAccessor.swift */,
+			);
+			sourceTree = "<group>";
+		};
+		D39E2E502F73309300A72B4A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D39E2E4F2F73309300A72B4A /* Typa.app */,
+				D39E2E5C2F73309400A72B4A /* TyperTests.xctest */,
+				D39E2E662F73309400A72B4A /* TyperUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D39E2E4E2F73309300A72B4A /* Typer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D39E2E702F73309400A72B4A /* Build configuration list for PBXNativeTarget "Typer" */;
+			buildPhases = (
+				D39E2E4B2F73309300A72B4A /* Sources */,
+				D39E2E4C2F73309300A72B4A /* Frameworks */,
+				D39E2E4D2F73309300A72B4A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D345CD802F75A73A00E982A4 /* Models */,
+				D345CD892F75A73A00E982A4 /* Views */,
+				D3C78F2D2F75A7700032ED54 /* Resources */,
+				D48F0B713A112B6300A00001 /* Swift */,
+			);
+			name = Typer;
+			packageProductDependencies = (
+			);
+			productName = Typer;
+			productReference = D39E2E4F2F73309300A72B4A /* Typa.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D39E2E5B2F73309400A72B4A /* TyperTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D39E2E732F73309400A72B4A /* Build configuration list for PBXNativeTarget "TyperTests" */;
+			buildPhases = (
+				D39E2E582F73309400A72B4A /* Sources */,
+				D39E2E592F73309400A72B4A /* Frameworks */,
+				D39E2E5A2F73309400A72B4A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D39E2E5E2F73309400A72B4A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D39E2E5F2F73309400A72B4A /* TyperTests */,
+			);
+			name = TyperTests;
+			packageProductDependencies = (
+			);
+			productName = TyperTests;
+			productReference = D39E2E5C2F73309400A72B4A /* TyperTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D39E2E652F73309400A72B4A /* TyperUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D39E2E762F73309400A72B4A /* Build configuration list for PBXNativeTarget "TyperUITests" */;
+			buildPhases = (
+				D39E2E622F73309400A72B4A /* Sources */,
+				D39E2E632F73309400A72B4A /* Frameworks */,
+				D39E2E642F73309400A72B4A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D39E2E682F73309400A72B4A /* PBXTargetDependency */,
+			);
+			name = TyperUITests;
+			packageProductDependencies = (
+			);
+			productName = TyperUITests;
+			productReference = D39E2E662F73309400A72B4A /* TyperUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D39E2E472F73309300A72B4A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2630;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					D39E2E4E2F73309300A72B4A = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					D39E2E5B2F73309400A72B4A = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = D39E2E4E2F73309300A72B4A;
+					};
+					D39E2E652F73309400A72B4A = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = D39E2E4E2F73309300A72B4A;
+					};
+				};
+			};
+			buildConfigurationList = D39E2E4A2F73309300A72B4A /* Build configuration list for PBXProject "Typa" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D39E2E462F73309300A72B4A;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D39E2E502F73309300A72B4A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D39E2E4E2F73309300A72B4A /* Typer */,
+				D39E2E5B2F73309400A72B4A /* TyperTests */,
+				D39E2E652F73309400A72B4A /* TyperUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D39E2E4D2F73309300A72B4A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1A4B2014C21000100A00001 /* AppIcon.icon in Resources */,
+				D39E2E572F73309400A72B4A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D39E2E5A2F73309400A72B4A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D39E2E642F73309400A72B4A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D39E2E4B2F73309300A72B4A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D36519012F91344200B63015 /* WindowAccessor.swift in Sources */,
+				D36518FF2F91344100B63015 /* OnboardingIntroView.swift in Sources */,
+				D345CD742F75A71800E982A4 /* AppState.swift in Sources */,
+				D345CD752F75A71800E982A4 /* ContentView.swift in Sources */,
+				D3F363BA2F76C1A5005E29DF /* DesignSystem.swift in Sources */,
+				D345CD762F75A71800E982A4 /* SettingsView.swift in Sources */,
+				D345CD772F75A71800E982A4 /* TypaApp.swift in Sources */,
+				D345CD782F75A71800E982A4 /* TypingView.swift in Sources */,
+				D345CD792F75A71800E982A4 /* Words.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D39E2E582F73309400A72B4A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D39E2E622F73309400A72B4A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D39E2E5E2F73309400A72B4A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D39E2E4E2F73309300A72B4A /* Typer */;
+			targetProxy = D39E2E5D2F73309400A72B4A /* PBXContainerItemProxy */;
+		};
+		D39E2E682F73309400A72B4A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D39E2E4E2F73309300A72B4A /* Typer */;
+			targetProxy = D39E2E672F73309400A72B4A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D39E2E6E2F73309400A72B4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D39E2E6F2F73309400A72B4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		D39E2E712F73309400A72B4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTOMATION_APPLE_EVENTS = NO;
+				CODE_SIGN_ENTITLEMENTS = Typa.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = NO;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				EXECUTABLE_NAME = Typa;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Typa;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_SUFeedURL = "https://dan-squared.github.io/typa/appcast.xml";
+				INFOPLIST_KEY_SUPublicEDKey = "2VhZbBhuDkrI34qLKTAPK+LSWDIdKbR04KyCKC/6bJg=";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.Typa;
+				PRODUCT_MODULE_NAME = Typer;
+				PRODUCT_NAME = Typa;
+				REGISTER_APP_GROUPS = YES;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D39E2E722F73309400A72B4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTOMATION_APPLE_EVENTS = NO;
+				CODE_SIGN_ENTITLEMENTS = Typa.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = NO;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				EXECUTABLE_NAME = Typa;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Typa;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_SUFeedURL = "https://dan-squared.github.io/typa/appcast.xml";
+				INFOPLIST_KEY_SUPublicEDKey = "2VhZbBhuDkrI34qLKTAPK+LSWDIdKbR04KyCKC/6bJg=";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.Typa;
+				PRODUCT_MODULE_NAME = Typer;
+				PRODUCT_NAME = Typa;
+				REGISTER_APP_GROUPS = YES;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		D39E2E742F73309400A72B4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_SUFeedURL = "https://dan-squared.github.io/typa/appcast.xml";
+				INFOPLIST_KEY_SUPublicEDKey = "2VhZbBhuDkrI34qLKTAPK+LSWDIdKbR04KyCKC/6bJg=";
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.TypaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Typa.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Typa";
+			};
+			name = Debug;
+		};
+		D39E2E752F73309400A72B4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_SUFeedURL = "https://dan-squared.github.io/typa/appcast.xml";
+				INFOPLIST_KEY_SUPublicEDKey = "2VhZbBhuDkrI34qLKTAPK+LSWDIdKbR04KyCKC/6bJg=";
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.TypaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Typa.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Typa";
+			};
+			name = Release;
+		};
+		D39E2E772F73309400A72B4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_SUFeedURL = "https://dan-squared.github.io/typa/appcast.xml";
+				INFOPLIST_KEY_SUPublicEDKey = "2VhZbBhuDkrI34qLKTAPK+LSWDIdKbR04KyCKC/6bJg=";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.TypaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Typer;
+			};
+			name = Debug;
+		};
+		D39E2E782F73309400A72B4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_SUFeedURL = "https://dan-squared.github.io/typa/appcast.xml";
+				INFOPLIST_KEY_SUPublicEDKey = "2VhZbBhuDkrI34qLKTAPK+LSWDIdKbR04KyCKC/6bJg=";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.TypaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Typer;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D39E2E4A2F73309300A72B4A /* Build configuration list for PBXProject "Typa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D39E2E6E2F73309400A72B4A /* Debug */,
+				D39E2E6F2F73309400A72B4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D39E2E702F73309400A72B4A /* Build configuration list for PBXNativeTarget "Typer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D39E2E712F73309400A72B4A /* Debug */,
+				D39E2E722F73309400A72B4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D39E2E732F73309400A72B4A /* Build configuration list for PBXNativeTarget "TyperTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D39E2E742F73309400A72B4A /* Debug */,
+				D39E2E752F73309400A72B4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D39E2E762F73309400A72B4A /* Build configuration list for PBXNativeTarget "TyperUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D39E2E772F73309400A72B4A /* Debug */,
+				D39E2E782F73309400A72B4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D39E2E472F73309300A72B4A /* Project object */;
+}
