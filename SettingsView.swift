@@ -555,6 +555,7 @@ struct AudioDataSettingsTab: View {
                     Text("Clicky").tag(SoundPack.clicky)
                     Text("Cream").tag(SoundPack.cream)
                     Text("Alpaca").tag(SoundPack.alpaca)
+                    Text("Apex Pro (Akira)").tag(SoundPack.akira)
                 }
                 .onChange(of: settings.keySoundPack, initial: false) { _, pack in
                     playPreviewSound(for: pack)
@@ -1055,6 +1056,8 @@ private func playPreviewSound(for pack: SoundPack) {
         previewCandidates = [("nk-cream/key", "wav")]
     case .alpaca:
         previewCandidates = [("alpaca/press_key1", "mp3")]
+    case .akira:
+        previewCandidates = [("Apex Pro TKL V2 Akira/akira_key1", "wav")]
     }
 
     for (name, fileExtension) in previewCandidates {

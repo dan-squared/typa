@@ -126,7 +126,7 @@ enum CaretColorPreset: String, Codable, CaseIterable, Identifiable, Sendable {
 }
 
 enum SoundPack: String, Codable, CaseIterable, Identifiable, Sendable {
-    case off, clicky, cream, alpaca
+    case off, clicky, cream, alpaca, akira
     var id: String { rawValue }
 }
 

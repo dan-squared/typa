@@ -973,6 +973,18 @@ struct TypingView: View {
             playKeySound(for: typedCharacter == " " ? .space : .standard)
             return .handled
         }
+        .onKeyPress(phases: .up) { press in
+            guard sessionSettings.keySoundPack == .alpaca else { return .ignored }
+            
+            let role: KeySoundRole
+            if press.key == .return { role = .enter }
+            else if press.key == .delete || press.key == .deleteForward || press.key == .init("\u{7F}") { role = .backspace }
+            else if press.characters == " " { role = .space }
+            else { role = .standard }
+            
+            playReleaseKeySound(for: role)
+            return .handled
+        }
     }
 
     private func floatingDockScale(for windowWidth: CGFloat) -> CGFloat {
@@ -1500,7 +1512,13 @@ struct TypingView: View {
         case .alpaca:
             switch role {
             case .standard:
-                playBundledSound(candidates: ["alpaca/press_key1"])
+                playBundledSound(candidates: [
+                    "alpaca/press_key1",
+                    "alpaca/press_key2",
+                    "alpaca/press_key3",
+                    "alpaca/press_key4",
+                    "alpaca/press_key5"
+                ])
             case .space:
                 playBundledSound(candidates: ["alpaca/press_space"])
             case .backspace:
@@ -1508,6 +1526,34 @@ struct TypingView: View {
             case .enter:
                 playBundledSound(candidates: ["alpaca/press_enter"])
             }
+        case .akira:
+            switch role {
+            case .standard, .backspace:
+                playBundledSound(candidates: [
+                    "Apex Pro TKL V2 Akira/akira_key1",
+                    "Apex Pro TKL V2 Akira/akira_key3",
+                    "Apex Pro TKL V2 Akira/akira_key4"
+                ])
+            case .space:
+                playBundledSound(candidates: ["Apex Pro TKL V2 Akira/akira_space"])
+            case .enter:
+                playBundledSound(candidates: ["Apex Pro TKL V2 Akira/akira_enter"])
+            }
+        }
+    }
+
+    private func playReleaseKeySound(for role: KeySoundRole) {
+        guard sessionSettings.keySoundPack == .alpaca else { return }
+        
+        switch role {
+        case .standard:
+            playBundledSound(candidates: ["alpaca/release_key"])
+        case .space:
+            playBundledSound(candidates: ["alpaca/release_space"])
+        case .backspace:
+            playBundledSound(candidates: ["alpaca/release_back"])
+        case .enter:
+            playBundledSound(candidates: ["alpaca/release_enter"])
         }
     }
 
