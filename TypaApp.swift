@@ -1,5 +1,8 @@
 import SwiftUI
 import SwiftData
+#if os(macOS)
+import AppKit
+#endif
 
 @main
 struct TypaApp: App {
@@ -59,6 +62,13 @@ struct TypaApp: App {
         .defaultLaunchBehavior(.presented)
         .restorationBehavior(.disabled)
         .windowResizability(.contentMinSize)
+        .commands {
+            CommandGroup(replacing: .appInfo) {
+                Button("About Typa") {
+                    AppAboutPresenter.present()
+                }
+            }
+        }
         .commands {
             CommandGroup(after: .appInfo) {
                 Button("Check for Updates…") {
@@ -434,6 +444,34 @@ private struct AppSceneRoot<Content: View>: View {
             }
     }
 }
+
+#if os(macOS)
+private enum AppAboutPresenter {
+    static func present() {
+        let description = "Adaptive typing practice\nfor calm, measurable improvement."
+        let options: [NSApplication.AboutPanelOptionKey: Any] = [
+            .applicationName: AppIdentity.displayName,
+            .credits: NSAttributedString(
+                string: description,
+                attributes: [
+                    .font: NSFont.systemFont(ofSize: 14, weight: .medium),
+                    .paragraphStyle: centeredParagraphStyle(),
+                    .foregroundColor: NSColor.secondaryLabelColor
+                ]
+            )
+        ]
+        NSApp.orderFrontStandardAboutPanel(options: options)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
+    private static func centeredParagraphStyle() -> NSParagraphStyle {
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
+        style.lineSpacing = 3
+        return style
+    }
+}
+#endif
 
 private struct CompactInfrastructureNotice: View {
     @Environment(\.ds) private var ds

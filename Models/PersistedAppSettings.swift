@@ -117,6 +117,7 @@ extension PersistedAppSettings {
 
     @MainActor
     var appSettings: AppSettings {
+        let keyboardLayout = KeyboardLayoutOption(rawValue: keyboardLayoutRaw) ?? .qwerty
         var settings = AppSettings(
             sessionMode: SessionMode(rawValue: sessionModeRaw ?? "") ?? .learning,
             testLengthMode: TestLengthMode(rawValue: testLengthModeRaw ?? "") ?? .time,
@@ -130,7 +131,7 @@ extension PersistedAppSettings {
             adaptiveRecoverKeys: adaptiveRecoverKeys,
             adaptiveNaturalWords: adaptiveNaturalWords,
             adaptiveUnlockStrategy: AdaptiveUnlockStrategy(rawValue: adaptiveUnlockStrategyRaw) ?? .frequencyFirst,
-            keyboardLayout: KeyboardLayoutOption(rawValue: keyboardLayoutRaw) ?? .qwerty,
+            keyboardLayout: keyboardLayout,
             lessonLength: lessonLength,
             repeatWords: repeatWords,
             capitalsProbability: capitalsProbability > 0 ? capitalsProbability : (includeCapitals ? 0.2 : 0.0),

@@ -1342,6 +1342,7 @@ enum AdaptiveTypingEngine {
 
         var words: [String] = []
         var recentBaseWords: [String] = []
+        var baseWordUsageCount: [String: Int] = [:]
         var wordsLength = 0
 
         while true {
@@ -1354,6 +1355,7 @@ enum AdaptiveTypingEngine {
                 transitionNeedByPair: profile.transitionNeedByPair,
                 configuration: configuration,
                 recentWords: recentBaseWords,
+                usageCount: baseWordUsageCount,
                 generator: &generator
             ) ?? fallbackLessonWord(
                 allowed: allowed,
@@ -1387,9 +1389,11 @@ enum AdaptiveTypingEngine {
                 }
             }
 
+            baseWordUsageCount[baseWord, default: 0] += 1
             recentBaseWords.append(baseWord)
-            if recentBaseWords.count > 4 {
-                recentBaseWords.removeFirst(recentBaseWords.count - 4)
+            let recentLimit = min(10, max(4, wordPool.count / 6))
+            if recentBaseWords.count > recentLimit {
+                recentBaseWords.removeFirst(recentBaseWords.count - recentLimit)
             }
         }
     }
@@ -1470,15 +1474,22 @@ enum AdaptiveTypingEngine {
         transitionNeedByPair: [String: Double],
         configuration: AdaptiveTrainingConfiguration,
         recentWords: [String],
+        usageCount: [String: Int],
         generator: inout T
     ) -> String? {
         let recentWordSet = Set(recentWords)
         let previousWord = recentWords.last ?? ""
+        let minimumUsage = wordPool.map { usageCount[$0.word, default: 0] }.min() ?? 0
+        let diversifiedPool = wordPool.filter {
+            usageCount[$0.word, default: 0] == minimumUsage && !recentWordSet.contains($0.word)
+        }
+        let leastUsedPool = wordPool.filter { usageCount[$0.word, default: 0] == minimumUsage }
+        let preferredPool = diversifiedPool.isEmpty ? (leastUsedPool.isEmpty ? wordPool : leastUsedPool) : diversifiedPool
 
         for _ in 0..<3 {
             let candidate = nextLessonWord(
                 corpus: corpus,
-                wordPool: wordPool,
+                wordPool: preferredPool,
                 allowed: allowed,
                 focused: focused,
                 forced: forced,
@@ -1495,7 +1506,7 @@ enum AdaptiveTypingEngine {
         for _ in 0..<3 {
             let candidate = nextLessonWord(
                 corpus: corpus,
-                wordPool: wordPool,
+                wordPool: preferredPool,
                 allowed: allowed,
                 focused: focused,
                 forced: forced,
@@ -2239,6 +2250,11 @@ private struct AdaptiveCorpus {
         let maxLength = configuration.maximumWordLength
         var attempt = 0
         var output: [String] = []
+        let preferredLength = preferredPseudoWordLength(
+            minimumLength: minLength,
+            maximumLength: maxLength,
+            generator: &generator
+        )
 
         func retry() -> Bool {
             guard attempt < 5 else { return false }
@@ -2253,10 +2269,20 @@ private struct AdaptiveCorpus {
         guard retry() else { return "" }
 
         while true {
+            if output.count >= maxLength {
+                return output.joined()
+            }
+
             let entries = transitionEntries(for: output).compactMap { key, weight -> (String, Double)? in
                 if key == " " {
                     guard output.count >= minLength else { return nil }
-                    return (key, Double(weight) * pow(1.3, Double(output.count)))
+                    let lengthBias = pseudoWordTerminationBias(
+                        currentLength: output.count,
+                        preferredLength: preferredLength,
+                        minimumLength: minLength,
+                        maximumLength: maxLength
+                    )
+                    return (key, Double(weight) * lengthBias)
                 }
 
                 guard let character = key.first, allowed.contains(character) else {
@@ -2276,15 +2302,41 @@ private struct AdaptiveCorpus {
                 return output.joined()
             }
 
-            if output.count > maxLength {
-                if retry() {
-                    continue
-                }
-                return output.joined()
-            }
-
             output.append(next)
         }
+    }
+
+    nonisolated private func preferredPseudoWordLength<T: RandomNumberGenerator>(
+        minimumLength: Int,
+        maximumLength: Int,
+        generator: inout T
+    ) -> Int {
+        guard maximumLength > minimumLength else { return minimumLength }
+
+        // Bias toward shorter pseudo-words while still allowing occasional longer ones.
+        let span = maximumLength - minimumLength
+        let biasedSample = pow(Double.random(in: 0...1, using: &generator), 1.9)
+        let sampledLength = minimumLength + Int(round(biasedSample * Double(span)))
+        return min(maximumLength, max(minimumLength, sampledLength))
+    }
+
+    nonisolated private func pseudoWordTerminationBias(
+        currentLength: Int,
+        preferredLength: Int,
+        minimumLength: Int,
+        maximumLength: Int
+    ) -> Double {
+        if currentLength < preferredLength {
+            let distance = preferredLength - currentLength
+            return max(0.08, 0.18 / Double(distance + 1))
+        }
+
+        if currentLength >= maximumLength - 1 {
+            return 12
+        }
+
+        let overshoot = currentLength - preferredLength
+        return min(12, 1.35 * pow(1.85, Double(max(0, overshoot))))
     }
 
     nonisolated private func filteredPrefixes(
@@ -2505,256 +2557,67 @@ private struct AdaptiveKeyboardLayout {
     }
 
     nonisolated static func layout(for option: KeyboardLayoutOption) -> AdaptiveKeyboardLayout {
-        switch option {
-        case .qwerty:
-            return AdaptiveKeyboardLayout(
-                rows: KeyboardLayoutOption.qwerty.rows,
-                definitions: [
-                    (.top, commonNumberRow()),
-                    (.top, [
-                        ("`", .left, .pinky),
-                        ("-", .right, .pinky),
-                        ("=", .right, .pinky),
-                        ("q", .left, .pinky),
-                        ("w", .left, .ring),
-                        ("e", .left, .middle),
-                        ("r", .left, .leftIndex),
-                        ("t", .left, .leftIndex),
-                        ("y", .right, .rightIndex),
-                        ("u", .right, .rightIndex),
-                        ("i", .right, .middle),
-                        ("o", .right, .ring),
-                        ("p", .right, .pinky),
-                        ("[", .right, .pinky),
-                        ("]", .right, .pinky),
-                        ("\\", .right, .pinky),
-                    ]),
-                    (.home, [
-                        ("a", .left, .pinky),
-                        ("s", .left, .ring),
-                        ("d", .left, .middle),
-                        ("f", .left, .leftIndex),
-                        ("g", .left, .leftIndex),
-                        ("h", .right, .rightIndex),
-                        ("j", .right, .rightIndex),
-                        ("k", .right, .middle),
-                        ("l", .right, .ring),
-                        (";", .right, .pinky),
-                        ("'", .right, .pinky),
-                    ]),
-                    (.bottom, [
-                        ("z", .left, .pinky),
-                        ("x", .left, .ring),
-                        ("c", .left, .middle),
-                        ("v", .left, .leftIndex),
-                        ("b", .left, .leftIndex),
-                        ("n", .right, .rightIndex),
-                        ("m", .right, .rightIndex),
-                        (",", .right, .middle),
-                        (".", .right, .ring),
-                        ("/", .right, .pinky),
-                    ]),
-                ],
-                punctuationDecorations: [
-                    .append("!"),
-                    .wrap("\"", "\""),
-                    .wrap("'", "'"),
-                    .append(","),
-                    .join("-"),
-                    .append("."),
-                    .append(":"),
-                    .append(";"),
-                    .append("?")
-                ]
-            )
-        case .qwertyUk:
-            return AdaptiveKeyboardLayout(
-                rows: KeyboardLayoutOption.qwertyUk.rows,
-                definitions: [
-                    (.top, commonNumberRow()),
-                    (.top, [
-                        ("`", .left, .pinky),
-                        ("-", .right, .pinky),
-                        ("=", .right, .pinky),
-                        ("q", .left, .pinky),
-                        ("w", .left, .ring),
-                        ("e", .left, .middle),
-                        ("r", .left, .leftIndex),
-                        ("t", .left, .leftIndex),
-                        ("y", .right, .rightIndex),
-                        ("u", .right, .rightIndex),
-                        ("i", .right, .middle),
-                        ("o", .right, .ring),
-                        ("p", .right, .pinky),
-                        ("[", .right, .pinky),
-                        ("]", .right, .pinky),
-                    ]),
-                    (.home, [
-                        ("a", .left, .pinky),
-                        ("s", .left, .ring),
-                        ("d", .left, .middle),
-                        ("f", .left, .leftIndex),
-                        ("g", .left, .leftIndex),
-                        ("h", .right, .rightIndex),
-                        ("j", .right, .rightIndex),
-                        ("k", .right, .middle),
-                        ("l", .right, .ring),
-                        (";", .right, .pinky),
-                        ("'", .right, .pinky),
-                        ("#", .right, .pinky),
-                    ]),
-                    (.bottom, [
-                        ("\\", .left, .pinky),
-                        ("z", .left, .pinky),
-                        ("x", .left, .ring),
-                        ("c", .left, .middle),
-                        ("v", .left, .leftIndex),
-                        ("b", .left, .leftIndex),
-                        ("n", .right, .rightIndex),
-                        ("m", .right, .rightIndex),
-                        (",", .right, .middle),
-                        (".", .right, .ring),
-                        ("/", .right, .pinky),
-                    ]),
-                ],
-                punctuationDecorations: [
-                    .append("!"),
-                    .wrap("\"", "\""),
-                    .wrap("'", "'"),
-                    .append("£"),
-                    .append("#"),
-                    .append("@"),
-                    .append(","),
-                    .join("-"),
-                    .append("."),
-                    .append(":"),
-                    .append(";"),
-                    .append("?")
-                ]
-            )
-        case .colemak:
-            return AdaptiveKeyboardLayout(
-                rows: KeyboardLayoutOption.colemak.rows,
-                definitions: [
-                    (.top, commonNumberRow()),
-                    (.top, [
-                        ("`", .left, .pinky),
-                        ("-", .right, .pinky),
-                        ("=", .right, .pinky),
-                        ("q", .left, .pinky),
-                        ("w", .left, .ring),
-                        ("f", .left, .middle),
-                        ("p", .left, .leftIndex),
-                        ("g", .left, .leftIndex),
-                        ("j", .right, .rightIndex),
-                        ("l", .right, .rightIndex),
-                        ("u", .right, .middle),
-                        ("y", .right, .ring),
-                        (";", .right, .pinky),
-                        ("[", .right, .pinky),
-                        ("]", .right, .pinky),
-                        ("\\", .right, .pinky),
-                    ]),
-                    (.home, [
-                        ("a", .left, .pinky),
-                        ("r", .left, .ring),
-                        ("s", .left, .middle),
-                        ("t", .left, .leftIndex),
-                        ("d", .left, .leftIndex),
-                        ("h", .right, .rightIndex),
-                        ("n", .right, .rightIndex),
-                        ("e", .right, .middle),
-                        ("i", .right, .ring),
-                        ("o", .right, .pinky),
-                        ("'", .right, .pinky),
-                    ]),
-                    (.bottom, [
-                        ("z", .left, .pinky),
-                        ("x", .left, .ring),
-                        ("c", .left, .middle),
-                        ("v", .left, .leftIndex),
-                        ("b", .left, .leftIndex),
-                        ("k", .right, .rightIndex),
-                        ("m", .right, .rightIndex),
-                        (",", .right, .middle),
-                        (".", .right, .ring),
-                        ("/", .right, .pinky),
-                    ]),
-                ],
-                punctuationDecorations: [
-                    .append("!"),
-                    .wrap("\"", "\""),
-                    .wrap("'", "'"),
-                    .append(","),
-                    .join("-"),
-                    .append("."),
-                    .append(":"),
-                    .append(";"),
-                    .append("?")
-                ]
-            )
-        case .dvorak:
-            return AdaptiveKeyboardLayout(
-                rows: KeyboardLayoutOption.dvorak.rows,
-                definitions: [
-                    (.top, commonNumberRow()),
-                    (.top, [
-                        ("`", .left, .pinky),
-                        ("[", .right, .ring),
-                        ("]", .right, .pinky),
-                        ("'", .left, .pinky),
-                        (",", .left, .ring),
-                        (".", .left, .middle),
-                        ("p", .left, .leftIndex),
-                        ("y", .left, .leftIndex),
-                        ("f", .right, .rightIndex),
-                        ("g", .right, .rightIndex),
-                        ("c", .right, .middle),
-                        ("r", .right, .ring),
-                        ("l", .right, .pinky),
-                        ("/", .right, .pinky),
-                        ("=", .right, .pinky),
-                        ("\\", .right, .pinky),
-                    ]),
-                    (.home, [
-                        ("a", .left, .pinky),
-                        ("o", .left, .ring),
-                        ("e", .left, .middle),
-                        ("u", .left, .leftIndex),
-                        ("i", .left, .leftIndex),
-                        ("d", .right, .rightIndex),
-                        ("h", .right, .rightIndex),
-                        ("t", .right, .middle),
-                        ("n", .right, .ring),
-                        ("s", .right, .pinky),
-                        ("-", .right, .pinky),
-                    ]),
-                    (.bottom, [
-                        (";", .left, .pinky),
-                        ("q", .left, .ring),
-                        ("j", .left, .middle),
-                        ("k", .left, .leftIndex),
-                        ("x", .left, .leftIndex),
-                        ("b", .right, .rightIndex),
-                        ("m", .right, .rightIndex),
-                        ("w", .right, .middle),
-                        ("v", .right, .ring),
-                        ("z", .right, .pinky),
-                    ]),
-                ],
-                punctuationDecorations: [
-                    .append("!"),
-                    .wrap("\"", "\""),
-                    .wrap("'", "'"),
-                    .append(","),
-                    .join("-"),
-                    .append("."),
-                    .append(":"),
-                    .append(";"),
-                    .append("?")
-                ]
-            )
-        }
+        _ = option
+        return AdaptiveKeyboardLayout(
+            rows: KeyboardLayoutOption.qwerty.rows,
+            definitions: [
+                (.top, commonNumberRow()),
+                (.top, [
+                    ("`", .left, .pinky),
+                    ("-", .right, .pinky),
+                    ("=", .right, .pinky),
+                    ("q", .left, .pinky),
+                    ("w", .left, .ring),
+                    ("e", .left, .middle),
+                    ("r", .left, .leftIndex),
+                    ("t", .left, .leftIndex),
+                    ("y", .right, .rightIndex),
+                    ("u", .right, .rightIndex),
+                    ("i", .right, .middle),
+                    ("o", .right, .ring),
+                    ("p", .right, .pinky),
+                    ("[", .right, .pinky),
+                    ("]", .right, .pinky),
+                    ("\\", .right, .pinky),
+                ]),
+                (.home, [
+                    ("a", .left, .pinky),
+                    ("s", .left, .ring),
+                    ("d", .left, .middle),
+                    ("f", .left, .leftIndex),
+                    ("g", .left, .leftIndex),
+                    ("h", .right, .rightIndex),
+                    ("j", .right, .rightIndex),
+                    ("k", .right, .middle),
+                    ("l", .right, .ring),
+                    (";", .right, .pinky),
+                    ("'", .right, .pinky),
+                ]),
+                (.bottom, [
+                    ("z", .left, .pinky),
+                    ("x", .left, .ring),
+                    ("c", .left, .middle),
+                    ("v", .left, .leftIndex),
+                    ("b", .left, .leftIndex),
+                    ("n", .right, .rightIndex),
+                    ("m", .right, .rightIndex),
+                    (",", .right, .middle),
+                    (".", .right, .ring),
+                    ("/", .right, .pinky),
+                ]),
+            ],
+            punctuationDecorations: [
+                .append("!"),
+                .wrap("\"", "\""),
+                .wrap("'", "'"),
+                .append(","),
+                .join("-"),
+                .append("."),
+                .append(":"),
+                .append(";"),
+                .append("?")
+            ]
+        )
     }
 
     nonisolated func randomDigit<T: RandomNumberGenerator>(using generator: inout T) -> String {

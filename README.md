@@ -14,7 +14,7 @@ The app is written in SwiftUI for macOS and uses SwiftData for local history per
 - Adaptive lesson generation based on the keys and transitions you actually miss
 - Local-only history, settings, and profile data
 - Detailed per-session telemetry including key stats, digraph misses, corrections, and timing
-- Multiple keyboard layouts including QWERTY, QWERTY UK, Colemak, and Dvorak
+- QWERTY-focused learning engine
 - Practice sources for common words, code words, number groups, and custom libraries
 - Visual customization for font size, line height, spacing, caret style, colors, and background noise
 - Optional sound packs and error sounds
@@ -168,14 +168,11 @@ This makes it possible to use Typa as both a trainer and a benchmark tool.
 
 ## Keyboard Layout Support
 
-Typa supports multiple layouts:
+Typa currently supports:
 
 - QWERTY
-- QWERTY (UK)
-- Colemak
-- Dvorak
 
-The adaptive engine respects the selected layout when determining supported keys, active alphabets, and lesson generation.
+The learning engine is currently tuned for the standard QWERTY layout.
 
 ## Appearance And UX
 
@@ -205,7 +202,7 @@ The app also includes:
 
 Audio options currently include:
 
-- sound packs: `Off`, `Clicky`, `Cream`, `Alpaca`
+- sound packs: `Off`, `Alpaca`, `Apex Pro (Akira)`
 - configurable volume
 - optional error sound feedback
 

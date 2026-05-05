@@ -25,73 +25,28 @@ enum AdaptiveUnlockStrategy: String, Codable, CaseIterable, Identifiable, Sendab
 
 enum KeyboardLayoutFamily: String, Codable, Sendable {
     case qwerty
-    case colemak
-    case dvorak
 }
 
 enum KeyboardLayoutOption: String, Codable, CaseIterable, Identifiable, Sendable {
     case qwerty
-    case qwertyUk
-    case colemak
-    case dvorak
 
     var id: String { rawValue }
 
     var title: String {
-        switch self {
-        case .qwerty:
-            return "QWERTY"
-        case .qwertyUk:
-            return "QWERTY (UK)"
-        case .colemak:
-            return "Colemak"
-        case .dvorak:
-            return "Dvorak"
-        }
+        "QWERTY"
     }
 
     nonisolated var family: KeyboardLayoutFamily {
-        switch self {
-        case .qwerty, .qwertyUk:
-            return .qwerty
-        case .colemak:
-            return .colemak
-        case .dvorak:
-            return .dvorak
-        }
+        .qwerty
     }
 
     nonisolated var rows: [[String]] {
-        switch self {
-        case .qwerty:
-            return [
-                ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="],
-                Array("qwertyuiop").map(String.init) + ["[", "]", "\\"],
-                Array("asdfghjkl").map(String.init) + [";", "'"],
-                Array("zxcvbnm").map(String.init) + [",", ".", "/"]
-            ]
-        case .qwertyUk:
-            return [
-                ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="],
-                Array("qwertyuiop").map(String.init) + ["[", "]"],
-                Array("asdfghjkl").map(String.init) + [";", "'", "#"],
-                ["\\"] + Array("zxcvbnm").map(String.init) + [",", ".", "/"]
-            ]
-        case .colemak:
-            return [
-                ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="],
-                Array("qwfpgjluy").map(String.init) + [";", "[", "]", "\\"],
-                Array("arstdhneio").map(String.init) + ["'"],
-                Array("zxcvbkm").map(String.init) + [",", ".", "/"]
-            ]
-        case .dvorak:
-            return [
-                ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "[", "]"],
-                ["'", ",", ".", "p", "y", "f", "g", "c", "r", "l", "/", "=", "\\"],
-                Array("aoeuidhtns").map(String.init) + ["-"],
-                [";", "q", "j", "k", "x", "b", "m", "w", "v", "z"]
-            ]
-        }
+        [
+            ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="],
+            Array("qwertyuiop").map(String.init) + ["[", "]", "\\"],
+            Array("asdfghjkl").map(String.init) + [";", "'"],
+            Array("zxcvbnm").map(String.init) + [",", ".", "/"]
+        ]
     }
 }
 
@@ -126,7 +81,7 @@ enum CaretColorPreset: String, Codable, CaseIterable, Identifiable, Sendable {
 }
 
 enum SoundPack: String, Codable, CaseIterable, Identifiable, Sendable {
-    case off, clicky, cream, alpaca, akira
+    case off, alpaca, akira
     var id: String { rawValue }
 }
 

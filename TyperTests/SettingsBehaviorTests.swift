@@ -43,4 +43,26 @@ struct SettingsBehaviorTests {
 
         #expect(appState.settings.fontSize == 42)
     }
+
+    @Test
+    func persistedLegacySoundPackFallsBackToOff() {
+        let persisted = PersistedAppSettings(keySoundPackRaw: "cream")
+
+        #expect(persisted.appSettings.keySoundPack == .off)
+    }
+
+    @Test
+    func persistedLegacyKeyboardLayoutFallsBackToQwerty() {
+        let persisted = PersistedAppSettings(keyboardLayoutRaw: "dvorak")
+
+        #expect(persisted.appSettings.keyboardLayout == .qwerty)
+    }
+
+    @Test
+    func adaptiveTypingDefaultsFavorShorterPseudoWords() {
+        let defaults = AdaptiveTypingEngine.defaults
+
+        #expect(defaults.minimumWordLength == 3)
+        #expect(defaults.maximumWordLength == 10)
+    }
 }

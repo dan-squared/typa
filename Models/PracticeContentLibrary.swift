@@ -27,6 +27,7 @@ enum PracticeContentLibrary {
         prepared.reserveCapacity(count)
         var recentWords: [String] = []
         var usageCount: [String: Int] = [:]
+        let recentLimit = min(8, max(2, uniqueWords.count / 4))
 
         while prepared.count < count {
             let nextWord = weightedSample(
@@ -39,8 +40,8 @@ enum PracticeContentLibrary {
             prepared.append(nextWord)
             usageCount[nextWord, default: 0] += 1
             recentWords.append(nextWord)
-            if recentWords.count > 3 {
-                recentWords.removeFirst(recentWords.count - 3)
+            if recentWords.count > recentLimit {
+                recentWords.removeFirst(recentWords.count - recentLimit)
             }
         }
 
@@ -67,15 +68,23 @@ enum PracticeContentLibrary {
         generator: inout T
     ) -> String? {
         let recentSet = Set(recentWords)
+        let minimumUsage = words.map { usageCount[$0, default: 0] }.min() ?? 0
+        let preferredWords = words.filter { usageCount[$0, default: 0] == minimumUsage && !recentSet.contains($0) }
+        let eligibleWords: [String]
+        if !preferredWords.isEmpty {
+            eligibleWords = preferredWords
+        } else {
+            let leastUsedWords = words.filter { usageCount[$0, default: 0] == minimumUsage }
+            eligibleWords = leastUsedWords.isEmpty ? words : leastUsedWords
+        }
         var totalWeight = 0.0
         var weightedWords: [(word: String, total: Double)] = []
-        weightedWords.reserveCapacity(words.count)
+        weightedWords.reserveCapacity(eligibleWords.count)
 
-        for (index, word) in words.enumerated() {
+        for (index, word) in eligibleWords.enumerated() {
             let rankWeight = 1.0 / sqrt(Double(index + 1))
-            let repetitionPenalty = 1.0 / (1.0 + Double(usageCount[word, default: 0]) * 1.35)
-            let recentPenalty = recentSet.contains(word) ? 0.18 : 1.0
-            let weight = rankWeight * repetitionPenalty * recentPenalty
+            let recentPenalty = recentSet.contains(word) ? 0.12 : 1.0
+            let weight = rankWeight * recentPenalty
 
             guard weight > 0 else { continue }
             totalWeight += weight

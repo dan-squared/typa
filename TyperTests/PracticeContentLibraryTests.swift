@@ -29,4 +29,14 @@ struct PracticeContentLibraryTests {
 
         #expect(words == ["swift", "swift", "swift", "swift"])
     }
+
+    @Test
+    func diversifiedTestWordsUsesBreadthBeforeRepeatingWords() {
+        let words = PracticeContentLibrary.diversifiedTestWords(
+            from: ["alpha", "beta", "gamma", "delta"],
+            count: 8
+        )
+
+        #expect(Set(words.prefix(4)).count == 4)
+    }
 }

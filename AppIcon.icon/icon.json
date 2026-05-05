@@ -45,7 +45,7 @@
             {
               "appearance" : "dark",
               "value" : {
-                "automatic-gradient" : "extended-gray:0.12137,1.00000"
+                "automatic-gradient" : "gray:0.05563,1.00000"
               }
             },
             {

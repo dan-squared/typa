@@ -286,19 +286,6 @@ struct TrainingSettingsTab: View {
         }
     }
 
-    private var keyboardLayoutDescription: String {
-        switch settings.keyboardLayout {
-        case .qwerty:
-            return "Standard ANSI QWERTY."
-        case .qwertyUk:
-            return "UK ISO QWERTY with the extra ISO key."
-        case .colemak:
-            return "Uses Colemak key positions."
-        case .dvorak:
-            return "Uses Dvorak key positions."
-        }
-    }
-
     private var textExtrasEnabled: Bool {
         settings.isLearningMode || (settings.isTestMode && (settings.testContentMode == .commonWords || settings.testContentMode == .codeWords))
     }
@@ -325,13 +312,7 @@ struct TrainingSettingsTab: View {
                 }
 
                 Section("Progress") {
-                    Picker("Keyboard Layout", selection: $settings.keyboardLayout) {
-                        ForEach(KeyboardLayoutOption.allCases) { layout in
-                            Text(layout.title).tag(layout)
-                        }
-                    }
-
-                    Text(keyboardLayoutDescription)
+                    Text("Learning layout: QWERTY")
                         .font(Typo.caption)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -552,8 +533,6 @@ struct AudioDataSettingsTab: View {
             Section("Key Sounds") {
                 Picker("Keypress Sound", selection: $settings.keySoundPack) {
                     Text("Off").tag(SoundPack.off)
-                    Text("Clicky").tag(SoundPack.clicky)
-                    Text("Cream").tag(SoundPack.cream)
                     Text("Alpaca").tag(SoundPack.alpaca)
                     Text("Apex Pro (Akira)").tag(SoundPack.akira)
                 }
@@ -1050,10 +1029,6 @@ private func playPreviewSound(for pack: SoundPack) {
     switch pack {
     case .off:
         return
-    case .clicky:
-        previewCandidates = [("Click 4 Sound", "wav")]
-    case .cream:
-        previewCandidates = [("nk-cream/key", "wav")]
     case .alpaca:
         previewCandidates = [("alpaca/press_key1", "mp3")]
     case .akira:

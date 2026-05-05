@@ -12,6 +12,7 @@ struct AdaptiveAnalysisView: View {
     @Environment(\.modelContext) private var modelContext
 
     @State private var selectedRange: AdaptiveAnalyticsRange
+    @State private var selectedProgressRange: AdaptiveAnalyticsRange
     @State private var hoveredChartDate: Date?
     @State private var hoveredChartLocation: CGPoint?
     @State private var showImportPicker = false
@@ -29,6 +30,7 @@ struct AdaptiveAnalysisView: View {
     @State private var cachedActivityWeeks: [[AdaptiveActivityCell]] = []
     @State private var cachedMaxActivityCount: Int = 1
     @State private var cachedSmoothedPoints: [AdaptiveSmoothedMetricPoint] = []
+    @State private var cachedChartSessions: [TrainingProfileSession] = []
     @State private var cachedKeyboardKeys: [AdaptiveKeyProfile] = []
     @State private var cachedHistoryEntries: [AdaptiveSessionHistoryEntry] = []
     @State private var cachedAnalysisTaskInput: AdaptiveAnalysisTaskInput?
@@ -36,6 +38,7 @@ struct AdaptiveAnalysisView: View {
     init(appState: AppState) {
         self.appState = appState
         _selectedRange = State(initialValue: .all)
+        _selectedProgressRange = State(initialValue: .all)
         _trainingProfile = State(initialValue: appState.profileSnapshot)
     }
 
@@ -74,7 +77,7 @@ struct AdaptiveAnalysisView: View {
 
     private var hoveredResult: TrainingProfileSession? {
         guard let hoveredChartDate else { return nil }
-        return cachedFilteredSessions.min {
+        return cachedChartSessions.min {
             abs($0.date.timeIntervalSince(hoveredChartDate)) < abs($1.date.timeIntervalSince(hoveredChartDate))
         }
     }
@@ -106,7 +109,7 @@ struct AdaptiveAnalysisView: View {
     }
 
     private var chartMaxY: Double {
-        let highestWPM = max(cachedFilteredSessions.map(\.wpm).max() ?? 0, cachedSmoothedPoints.map(\.wpm).max() ?? 0)
+        let highestWPM = max(cachedChartSessions.map(\.wpm).max() ?? 0, cachedSmoothedPoints.map(\.wpm).max() ?? 0)
         return max(120, ceil(max(highestWPM, 120) / 20) * 20)
     }
 
@@ -283,7 +286,10 @@ struct AdaptiveAnalysisView: View {
             rebuildCachedState()
         }
         .onChange(of: progressSmoothness) { _, newValue in
-            cachedSmoothedPoints = AdaptiveSmoothedMetricPoint.build(from: cachedFilteredSessions, smoothness: newValue)
+            cachedSmoothedPoints = AdaptiveSmoothedMetricPoint.build(from: cachedChartSessions, smoothness: newValue)
+        }
+        .onChange(of: selectedProgressRange) { _, _ in
+            rebuildChartState()
         }
         .onChange(of: appState.settings.keyboardLayout) { _, _ in
             rebuildKeyboardKeys()
@@ -844,6 +850,13 @@ struct AdaptiveAnalysisView: View {
             }
 
             VStack(alignment: .leading, spacing: Spacing.xxs) {
+                Picker("Progress Range", selection: $selectedProgressRange) {
+                    ForEach(AdaptiveAnalyticsRange.allCases) { range in
+                        Text(range.title).tag(range)
+                    }
+                }
+                .pickerStyle(.segmented)
+
                 HStack {
                     Text("Smoothing")
                         .font(Typo.caption)
@@ -2049,9 +2062,6 @@ struct AdaptiveAnalysisView: View {
         }
         cachedFilteredSessions = filtered
 
-        // Smoothed progress points
-        cachedSmoothedPoints = AdaptiveSmoothedMetricPoint.build(from: filtered, smoothness: progressSmoothness)
-
         // Session history entries (latest 24)
         cachedHistoryEntries = Array(filtered.reversed().prefix(24)).map { session in
             AdaptiveSessionHistoryEntry(session: session)
@@ -2072,6 +2082,18 @@ struct AdaptiveAnalysisView: View {
         if newInput != cachedAnalysisTaskInput {
             cachedAnalysisTaskInput = newInput
         }
+
+        rebuildChartState()
+    }
+
+    private func rebuildChartState() {
+        let startDate = selectedProgressRange.startDate(from: .now)
+        let filtered = cachedFilteredSessions.filter { session in
+            guard let startDate else { return true }
+            return session.date >= startDate
+        }
+        cachedChartSessions = filtered
+        cachedSmoothedPoints = AdaptiveSmoothedMetricPoint.build(from: filtered, smoothness: progressSmoothness)
     }
 
     private func rebuildActivityCells() {

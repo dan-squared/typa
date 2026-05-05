@@ -14,7 +14,6 @@ import SwiftData
     @ObservationIgnored private var lastTrainingHistoryInput: [HistoryTransferDeduplicationKey] = []
     @ObservationIgnored private var lastTrainingRuntimeConfiguration: TrainingRuntimeConfiguration?
     @ObservationIgnored private var hasPrimedTrainingRuntime = false
-    @ObservationIgnored private var autoRaisedTargetGoalEventIDs: Set<String> = []
     var shouldRestart = false
     var isShowingResults = false
     var isTypingActive = false
@@ -485,26 +484,14 @@ private extension AppState {
         var prepared = events.sorted { $0.date > $1.date }
 
         for index in prepared.indices where prepared[index].kind == .newBestSpeed {
-            let eventID = prepared[index].id
-            guard autoRaisedTargetGoalEventIDs.insert(eventID).inserted else {
-                continue
-            }
-
             let achievedWPM = achievedWPM(from: prepared[index].detail)
             let currentGoal = settings.adaptiveTargetWPM
             guard achievedWPM >= currentGoal else {
                 continue
             }
 
-            let nextGoal = min(200, currentGoal + 10)
-            if nextGoal > currentGoal {
-                settings.adaptiveTargetWPM = nextGoal
-                prepared[index].title = "WPM Goal Reached"
-                prepared[index].detail = "Hit \(Int(achievedWPM.rounded())) WPM. New target: \(Int(nextGoal.rounded())) WPM. Update your goal in Settings any time."
-            } else {
-                prepared[index].title = "WPM Goal Reached"
-                prepared[index].detail = "Hit \(Int(achievedWPM.rounded())) WPM. You are at the max target. Update your goal in Settings any time."
-            }
+            prepared[index].title = "WPM Goal Reached"
+            prepared[index].detail = "Hit \(Int(achievedWPM.rounded())) WPM in learning mode. Current goal: \(Int(currentGoal.rounded())) WPM."
         }
 
         return prepared

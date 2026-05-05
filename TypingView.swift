@@ -1496,19 +1496,6 @@ struct TypingView: View {
         switch sessionSettings.keySoundPack {
         case .off:
             return
-        case .clicky:
-            playBundledSound(candidates: ["Click 4 Sound"])
-        case .cream:
-            switch role {
-            case .standard:
-                playBundledSound(candidates: ["nk-cream/key"])
-            case .space:
-                playBundledSound(candidates: ["nk-cream/space"])
-            case .backspace:
-                playBundledSound(candidates: ["nk-cream/backspace"])
-            case .enter:
-                playBundledSound(candidates: ["nk-cream/enter"])
-            }
         case .alpaca:
             switch role {
             case .standard:
