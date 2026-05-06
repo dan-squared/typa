@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Typa Updates</title>
+        <link>https://dan-squared.github.io/typa/appcast.xml</link>
+        <description>Most recent changes with links to updates.</description>
+        <language>en</language>
+        <item>
+            <title>Version 0.1.0</title>
+            <pubDate>Tue, 05 May 2026 12:00:00 +0000</pubDate>
+            <enclosure url="https://dan-squared.github.io/typa/Typa.app.zip" length="4811264" type="application/octet-stream" sparkle:edSignature="ir5iv5hrOqrJqWyuf6/Gr/pXeGx3PMBZGR88m3mI4C84q8MIW0+Dti5jGYDEW5cJQUD7Bhy/ELRoiFqv8lZ0Bw=="/>
+            <sparkle:version>1</sparkle:version>
+            <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.2</sparkle:minimumSystemVersion>
+        </item>
+    </channel>
+</rss>
