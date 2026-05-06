@@ -2,14 +2,7 @@
 import { ref, onMounted, nextTick } from 'vue'
 import gsap from 'gsap'
 
-const isLoading = ref(true)
-const showContent = ref(false)
-const displayedText = ref('')
 const customCursor = ref(null)
-
-const word = 'Typa'
-const letters = word.split('')
-
 const isAboutOpen = ref(false)
 
 onMounted(() => {
@@ -21,69 +14,44 @@ onMounted(() => {
     yTo(e.clientY)
   })
 
-  const tl = gsap.timeline()
-  tl.to({}, { duration: 0.5 })
+  nextTick(() => {
+    const reveal = gsap.timeline({ defaults: { ease: 'power3.out', force3D: true } })
 
-  letters.forEach((char, i) => {
-    const typingDelay = i === 0 ? 0 : gsap.utils.random(0.15, 0.4)
-    tl.call(() => { displayedText.value += char }, [], `+=${typingDelay}`)
-  })
+    // Everything fades in together, smooth and quick
+    reveal.fromTo('.gallery-item',
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.08 }
+    )
 
-  tl.to({}, { duration: 1.0 })
+    reveal.fromTo('.bottom-left > *',
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, stagger: 0.05 },
+      '-=0.5'
+    )
 
-  tl.to('.loading-screen', {
-    opacity: 0,
-    duration: 1.0,
-    ease: 'power2.inOut',
-    onComplete: () => {
-      isLoading.value = false
-      showContent.value = true
-      nextTick(() => {
-        const reveal = gsap.timeline({ defaults: { ease: 'power3.out', force3D: true } })
+    reveal.fromTo('.bottom-right > *',
+      { y: 10, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.4, stagger: 0.04 },
+      '-=0.4'
+    )
 
-        // Gallery cards cascade in from the left
-        reveal.fromTo('.gallery-item',
-          { y: 60, opacity: 0, scale: 0.96 },
-          { y: 0, opacity: 1, scale: 1, duration: 1, stagger: 0.12 }
-        )
+    // Infinite Gallery Loop
+    const galleryEl = document.querySelector('.gallery-inner')
+    if (galleryEl) {
+      const totalWidth = galleryEl.scrollWidth / 2
+      const scrollTween = gsap.to(galleryEl, {
+        x: -totalWidth,
+        duration: 40,
+        ease: 'none',
+        repeat: -1,
+        delay: 0.8
+      })
 
-        // Bottom left info slides up while gallery is still finishing
-        reveal.fromTo('.bottom-left > *',
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.7, stagger: 0.06 },
-          '-=0.5'
-        )
-
-        // Social links fade in last
-        reveal.fromTo('.bottom-right > *',
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.5, stagger: 0.05 },
-          '-=0.3'
-        )
-
-        // Infinite Gallery Loop — start after reveal completes
-        const galleryEl = document.querySelector('.gallery-inner')
-        const gallerySec = document.querySelector('.gallery')
-        if (galleryEl) {
-          const totalWidth = galleryEl.scrollWidth / 2
-          const scrollTween = gsap.to(galleryEl, {
-            x: -totalWidth,
-            duration: 40,
-            ease: 'none',
-            repeat: -1,
-            delay: 1.2
-          })
-
-          // Slow down on hover
-          if (gallerySec) {
-            gallerySec.addEventListener('mouseenter', () => {
-              gsap.to(scrollTween, { timeScale: 0.3, duration: 0.6, ease: 'power2.out' })
-            })
-            gallerySec.addEventListener('mouseleave', () => {
-              gsap.to(scrollTween, { timeScale: 1, duration: 0.6, ease: 'power2.out' })
-            })
-          }
-        }
+      galleryEl.addEventListener('mouseenter', () => {
+        gsap.to(scrollTween, { timeScale: 0.3, duration: 0.6, ease: 'power2.out' })
+      })
+      galleryEl.addEventListener('mouseleave', () => {
+        gsap.to(scrollTween, { timeScale: 1, duration: 0.6, ease: 'power2.out' })
       })
     }
   })
@@ -99,18 +67,10 @@ const toggleAbout = () => {
 
 <template>
   <!-- Custom Cursor -->
-  <div ref="customCursor" class="custom-cursor" :style="{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.5s ease' }"></div>
-
-  <!-- Loading -->
-  <div v-if="isLoading" class="loading-screen">
-    <div class="loader-content">
-      <span class="loader-text">{{ displayedText }}</span>
-      <span class="loader-cursor"></span>
-    </div>
-  </div>
+  <div ref="customCursor" class="custom-cursor"></div>
 
   <!-- Main -->
-  <div v-if="showContent" class="page">
+  <div class="page">
 
     <!-- Gallery: horizontal infinite loop -->
     <section class="gallery">
