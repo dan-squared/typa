@@ -10,6 +10,8 @@ const customCursor = ref(null)
 const word = 'Typa'
 const letters = word.split('')
 
+const isAboutOpen = ref(false)
+
 onMounted(() => {
   const xTo = gsap.quickTo(customCursor.value, "x", { duration: 0.3, ease: "power3" })
   const yTo = gsap.quickTo(customCursor.value, "y", { duration: 0.3, ease: "power3" })
@@ -58,10 +60,41 @@ onMounted(() => {
           { y: 0, opacity: 1, duration: 0.5, stagger: 0.05 },
           '-=0.3'
         )
+
+        // Infinite Gallery Loop — start after reveal completes
+        const galleryEl = document.querySelector('.gallery-inner')
+        const gallerySec = document.querySelector('.gallery')
+        if (galleryEl) {
+          const totalWidth = galleryEl.scrollWidth / 2
+          const scrollTween = gsap.to(galleryEl, {
+            x: -totalWidth,
+            duration: 40,
+            ease: 'none',
+            repeat: -1,
+            delay: 1.2
+          })
+
+          // Slow down on hover
+          if (gallerySec) {
+            gallerySec.addEventListener('mouseenter', () => {
+              gsap.to(scrollTween, { timeScale: 0.3, duration: 0.6, ease: 'power2.out' })
+            })
+            gallerySec.addEventListener('mouseleave', () => {
+              gsap.to(scrollTween, { timeScale: 1, duration: 0.6, ease: 'power2.out' })
+            })
+          }
+        }
       })
     }
   })
 })
+
+const toggleAbout = () => {
+  isAboutOpen.value = !isAboutOpen.value
+  if (isAboutOpen.value) {
+    gsap.fromTo('.about-overlay', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' })
+  }
+}
 </script>
 
 <template>
@@ -79,16 +112,21 @@ onMounted(() => {
   <!-- Main -->
   <div v-if="showContent" class="page">
 
-    <!-- Gallery: horizontal showcase -->
+    <!-- Gallery: horizontal infinite loop -->
     <section class="gallery">
-      <div class="gallery-item hero-shot">
-        <!-- Replace with <img src="..." /> or <video> -->
-      </div>
-      <div class="gallery-item side-shot">
-        <!-- Replace with <img src="..." /> or <video> -->
-      </div>
-      <div class="gallery-item side-shot">
-        <!-- Replace with <img src="..." /> or <video> -->
+      <div class="gallery-inner">
+        <!-- Doubled items for seamless loop -->
+        <div v-for="i in 2" :key="i" class="gallery-set">
+          <div class="gallery-item">
+            <img src="/s1.webp" alt="Typa typing practice" width="3420" height="2152" :fetchpriority="i === 1 ? 'high' : 'low'" />
+          </div>
+          <div class="gallery-item">
+            <img src="/s2.webp" alt="Typa profile view" width="3420" height="2150" fetchpriority="low" />
+          </div>
+          <div class="gallery-item">
+            <img src="/s3.webp" alt="Typa settings" width="3420" height="2150" fetchpriority="low" />
+          </div>
+        </div>
       </div>
     </section>
 
@@ -119,10 +157,37 @@ onMounted(() => {
       </div>
 
       <div class="bottom-right">
-        <a href="https://github.com" target="_blank" class="social-link">GitHub</a>
-        <a href="#" class="social-link">X</a>
+        <button @click="toggleAbout" class="social-link">Why Typa</button>
+        <a href="https://github.com/dan-squared/typa" target="_blank" class="social-link">GitHub</a>
+        <a href="https://x.com/Dan_cubed" target="_blank" class="social-link">X</a>
       </div>
     </section>
+
+    <!-- Why Typa Overlay -->
+    <div v-if="isAboutOpen" class="about-overlay">
+      <button class="close-about" @click="toggleAbout">← Back</button>
+
+      <div class="about-layout">
+        <h2 class="about-title">Why Typa</h2>
+
+        <div class="about-columns">
+          <div class="about-col">
+            <h3>Adaptive Practice</h3>
+            <p>Typa observes your speed, accuracy, and transition friction for every letter pair. It creates custom lessons that reinforce your weak spots until they become muscle memory.</p>
+          </div>
+          <div class="about-col">
+            <h3>Beyond Speed</h3>
+            <p>Great typing is about stability. Typa monitors how fast you recover from mistakes and which key combinations cause you to hesitate. It trains for flow, not just numbers.</p>
+          </div>
+          <div class="about-col">
+            <h3>Local & Private</h3>
+            <p>100% of your progress stays on your Mac. No clouds, no accounts, no tracking. Just pure native performance.</p>
+          </div>
+        </div>
+      </div>
+
+      <span class="about-footnote">Built for people who care about the craft of typing.</span>
+    </div>
 
   </div>
 </template>
@@ -138,7 +203,7 @@ onMounted(() => {
   background-color: #000000;
   border-radius: 3px;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 10001;
   transform: translate(-50%, -50%);
   will-change: transform;
 }
@@ -202,30 +267,36 @@ onMounted(() => {
 
 /* ─── Gallery ─── */
 .gallery {
-  display: flex;
-  gap: 16px;
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  position: relative;
+  margin: 0 -24px;
+}
+
+.gallery-inner {
+  display: flex;
+  height: 100%;
+}
+
+.gallery-set {
+  display: flex;
+  gap: 16px;
+  padding: 0 8px;
+  height: 100%;
 }
 
 .gallery-item {
   background-color: var(--card-bg);
-  border-radius: 16px;
+  border-radius: 0;
   flex-shrink: 0;
   overflow: hidden;
   position: relative;
+  width: 700px;
+  height: 100%;
 }
 
-.gallery-item.hero-shot {
-  flex: 1 1 55%;
-  min-height: 520px;
-}
 
-.gallery-item.side-shot {
-  flex: 1 1 20%;
-  min-height: 520px;
-}
 
 .gallery-item img,
 .gallery-item video {
@@ -359,9 +430,9 @@ onMounted(() => {
     display: none;
   }
 
-  .gallery-item.hero-shot,
-  .gallery-item.side-shot {
+  .gallery-item {
     flex: 0 0 85%;
+    width: auto;
     min-height: 320px;
     scroll-snap-align: center;
   }
@@ -380,9 +451,9 @@ onMounted(() => {
     gap: 16px;
   }
 
-  .gallery-item.hero-shot,
-  .gallery-item.side-shot {
+  .gallery-item {
     flex: 0 0 90%;
+    width: auto;
     min-height: 100%; /* Fill available height */
   }
 
@@ -405,6 +476,92 @@ onMounted(() => {
 
   .description {
     font-size: 14px;
+  }
+}
+
+/* ─── Why Typa Overlay ─── */
+.about-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.close-about {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  background: none;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+  padding: 0;
+}
+
+.close-about:hover {
+  color: var(--text-primary);
+}
+
+.about-layout {
+  max-width: 960px;
+  width: 100%;
+}
+
+.about-title {
+  font-family: 'Geist Pixel Line', monospace;
+  font-size: 48px;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  margin-bottom: 64px;
+}
+
+.about-columns {
+  display: flex;
+  gap: 64px;
+}
+
+.about-col {
+  flex: 1;
+}
+
+.about-col h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.about-col p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.about-footnote {
+  position: absolute;
+  bottom: 32px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .about-columns {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .about-title {
+    font-size: 32px;
+    margin-bottom: 40px;
   }
 }
 </style>
