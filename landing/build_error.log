@@ -1,0 +1,29 @@
+
+> typa@0.0.0 build
+> vite build
+
+vite v5.4.21 building for production...
+transforming...
+src/components/MacintoshScene.vue (6:40): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+✓ 28 modules transformed.
+x Build failed in 399ms
+error during build:
+src/components/MacintoshScene.vue (6:40): "Float" is not exported by "node_modules/@tresjs/cientos/dist/trescientos.js", imported by "src/components/MacintoshScene.vue".
+file: /Users/dan_cubed/Documents/typa l/src/components/MacintoshScene.vue:6:40
+
+4: 
+5: import { TresCanvas } from '@tresjs/core'
+6: import { OrbitControls, ContactShadows, Float } from '@tresjs/cientos'
+                                           ^
+7: import MacintoshModel from './MacintoshModel.vue'
+
+    at getRollupError (file:///Users/dan_cubed/Documents/typa%20l/node_modules/rollup/dist/es/shared/parseAst.js:406:41)
+    at error (file:///Users/dan_cubed/Documents/typa%20l/node_modules/rollup/dist/es/shared/parseAst.js:402:42)
+    at Module.error (file:///Users/dan_cubed/Documents/typa%20l/node_modules/rollup/dist/es/shared/node-entry.js:17384:16)
+    at Module.traceVariable (file:///Users/dan_cubed/Documents/typa%20l/node_modules/rollup/dist/es/shared/node-entry.js:17817:29)
+    at ModuleScope.findVariable (file:///Users/dan_cubed/Documents/typa%20l/node_modules/rollup/dist/es/shared/node-entry.js:15407:39)
+    at ChildScope.findVariable (file:///Users/dan_cubed/Documents/typa%20l/node_modules/rollup/dist/es/shared/node-entry.js:5676:38)
+    at FunctionScope.findVariable (file:///Users/dan_cubed/Documents/typa%20l/node_modules/rollup/dist/es/shared/node-entry.js:5676:38)
+    at FunctionBodyScope.findVariable (file:///Users/dan_cubed/Documents/typa%20l/node_modules/rollup/dist/es/shared/node-entry.js:5676:38)
+    at ReturnValueScope.findVariable (file:///Users/dan_cubed/Documents/typa%20l/node_modules/rollup/dist/es/shared/node-entry.js:5676:38)
+    at FunctionBodyScope.findVariable (file:///Users/dan_cubed/Documents/typa%20l/node_modules/rollup/dist/es/shared/node-entry.js:5676:38)

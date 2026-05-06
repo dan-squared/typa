@@ -17,6 +17,9 @@
 		D36518FF2F91344100B63015 /* OnboardingIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36518FE2F91344100B63015 /* OnboardingIntroView.swift */; };
 		D36519012F91344200B63015 /* WindowAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36519002F91344200B63015 /* WindowAccessor.swift */; };
 		D39E2E572F73309400A72B4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D39E2E562F73309400A72B4A /* Assets.xcassets */; };
+		D39E61022FAA8F82000D063C /* releasenotes.html in Resources */ = {isa = PBXBuildFile; fileRef = D39E60FE2FAA8F82000D063C /* releasenotes.html */; };
+		D39E61032FAA8F82000D063C /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = D39E60FD2FAA8F82000D063C /* index.html */; };
+		D39E61042FAA8F82000D063C /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = D39E60FC2FAA8F82000D063C /* appcast.xml */; };
 		D3F363BA2F76C1A5005E29DF /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F363B92F76C1A5005E29DF /* DesignSystem.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		D1A4B2004C21000100A00001 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		D30D64112FAB1913008D735C /* Typa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Typa.entitlements; sourceTree = "<group>"; };
 		D345CD582F75A71800E982A4 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		D345CD592F75A71800E982A4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D345CD5A2F75A71800E982A4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -52,6 +56,10 @@
 		D39E2E562F73309400A72B4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D39E2E5C2F73309400A72B4A /* TyperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TyperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D39E2E662F73309400A72B4A /* TyperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TyperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D39E60FC2FAA8F82000D063C /* appcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = appcast.xml; sourceTree = "<group>"; };
+		D39E60FD2FAA8F82000D063C /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		D39E60FE2FAA8F82000D063C /* releasenotes.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = releasenotes.html; sourceTree = "<group>"; };
+		D39E61052FAA9109000D063C /* Typer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Typer-Info.plist"; sourceTree = "<group>"; };
 		D3F363B92F76C1A5005E29DF /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,8 +119,10 @@
 		D39E2E462F73309300A72B4A = {
 			isa = PBXGroup;
 			children = (
+				D39E61052FAA9109000D063C /* Typer-Info.plist */,
 				D39E2E562F73309400A72B4A /* Assets.xcassets */,
 				D1A4B2004C21000100A00001 /* AppIcon.icon */,
+				D30D64112FAB1913008D735C /* Typa.entitlements */,
 				D3C78F2D2F75A7700032ED54 /* Resources */,
 				D345CD802F75A73A00E982A4 /* Models */,
 				D345CD892F75A73A00E982A4 /* Views */,
@@ -129,6 +139,7 @@
 				D39E2E502F73309300A72B4A /* Products */,
 				D36518FE2F91344100B63015 /* OnboardingIntroView.swift */,
 				D36519002F91344200B63015 /* WindowAccessor.swift */,
+				D39E61002FAA8F82000D063C /* docs */,
 			);
 			sourceTree = "<group>";
 		};
@@ -140,6 +151,16 @@
 				D39E2E662F73309400A72B4A /* TyperUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D39E61002FAA8F82000D063C /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				D39E60FC2FAA8F82000D063C /* appcast.xml */,
+				D39E60FD2FAA8F82000D063C /* index.html */,
+				D39E60FE2FAA8F82000D063C /* releasenotes.html */,
+			);
+			path = docs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +286,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D39E61022FAA8F82000D063C /* releasenotes.html in Resources */,
+				D39E61032FAA8F82000D063C /* index.html in Resources */,
+				D39E61042FAA8F82000D063C /* appcast.xml in Resources */,
 				D1A4B2014C21000100A00001 /* AppIcon.icon in Resources */,
 				D39E2E572F73309400A72B4A /* Assets.xcassets in Resources */,
 			);
@@ -462,7 +486,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_ENTITLEMENTS = Typa.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -480,8 +504,10 @@
 				ENABLE_USER_SELECTED_FILES = readwrite;
 				EXECUTABLE_NAME = Typa;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Typer-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Typa;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_SUEnableInstallerLauncherService = YES;
 				INFOPLIST_KEY_SUFeedURL = "https://dan-squared.github.io/typa/appcast.xml";
 				INFOPLIST_KEY_SUPublicEDKey = "2VhZbBhuDkrI34qLKTAPK+LSWDIdKbR04KyCKC/6bJg=";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -515,7 +541,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_ENTITLEMENTS = Typa.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -533,8 +559,10 @@
 				ENABLE_USER_SELECTED_FILES = readwrite;
 				EXECUTABLE_NAME = Typa;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Typer-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Typa;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_SUEnableInstallerLauncherService = YES;
 				INFOPLIST_KEY_SUFeedURL = "https://dan-squared.github.io/typa/appcast.xml";
 				INFOPLIST_KEY_SUPublicEDKey = "2VhZbBhuDkrI34qLKTAPK+LSWDIdKbR04KyCKC/6bJg=";
 				LD_RUNPATH_SEARCH_PATHS = (
