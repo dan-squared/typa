@@ -4,20 +4,26 @@ import gsap from 'gsap'
 
 const customCursor = ref(null)
 const isAboutOpen = ref(false)
+const isMobile = ref(false)
 
 onMounted(() => {
-  const xTo = gsap.quickTo(customCursor.value, "x", { duration: 0.3, ease: "power3" })
-  const yTo = gsap.quickTo(customCursor.value, "y", { duration: 0.3, ease: "power3" })
+  isMobile.value = window.matchMedia('(max-width: 1024px)').matches || ('ontouchstart' in window)
 
-  window.addEventListener('mousemove', (e) => {
-    xTo(e.clientX)
-    yTo(e.clientY)
-  })
+  // Custom Cursor: only if not mobile and has a fine pointer
+  const hasFinePointer = window.matchMedia('(pointer: fine)').matches
+  if (!isMobile.value && hasFinePointer) {
+    const xTo = gsap.quickTo(customCursor.value, "x", { duration: 0.3, ease: "power3" })
+    const yTo = gsap.quickTo(customCursor.value, "y", { duration: 0.3, ease: "power3" })
+
+    window.addEventListener('mousemove', (e) => {
+      xTo(e.clientX)
+      yTo(e.clientY)
+    })
+  }
 
   nextTick(() => {
     const reveal = gsap.timeline({ defaults: { ease: 'power3.out', force3D: true } })
 
-    // Everything fades in together, smooth and quick
     reveal.fromTo('.gallery-item',
       { y: 40, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8, stagger: 0.08 }
@@ -35,24 +41,26 @@ onMounted(() => {
       '-=0.4'
     )
 
-    // Infinite Gallery Loop
-    const galleryEl = document.querySelector('.gallery-inner')
-    if (galleryEl) {
-      const totalWidth = galleryEl.scrollWidth / 2
-      const scrollTween = gsap.to(galleryEl, {
-        x: -totalWidth,
-        duration: 40,
-        ease: 'none',
-        repeat: -1,
-        delay: 0.8
-      })
+    // Infinite Gallery Loop: desktop only (mobile uses native touch scroll)
+    if (!isMobile.value) {
+      const galleryEl = document.querySelector('.gallery-inner')
+      if (galleryEl) {
+        const totalWidth = galleryEl.scrollWidth / 2
+        const scrollTween = gsap.to(galleryEl, {
+          x: -totalWidth,
+          duration: 40,
+          ease: 'none',
+          repeat: -1,
+          delay: 0.8
+        })
 
-      galleryEl.addEventListener('mouseenter', () => {
-        gsap.to(scrollTween, { timeScale: 0.3, duration: 0.6, ease: 'power2.out' })
-      })
-      galleryEl.addEventListener('mouseleave', () => {
-        gsap.to(scrollTween, { timeScale: 1, duration: 0.6, ease: 'power2.out' })
-      })
+        galleryEl.addEventListener('mouseenter', () => {
+          gsap.to(scrollTween, { timeScale: 0.3, duration: 0.6, ease: 'power2.out' })
+        })
+        galleryEl.addEventListener('mouseleave', () => {
+          gsap.to(scrollTween, { timeScale: 1, duration: 0.6, ease: 'power2.out' })
+        })
+      }
     }
   })
 })
@@ -70,7 +78,7 @@ const toggleAbout = () => {
   <div ref="customCursor" class="custom-cursor"></div>
 
   <!-- Main -->
-  <div class="page">
+  <main class="page">
 
     <!-- Gallery: horizontal infinite loop -->
     <section class="gallery">
@@ -91,17 +99,17 @@ const toggleAbout = () => {
     </section>
 
     <!-- Bottom section: info + links -->
-    <section class="bottom-section">
+    <footer class="bottom-section">
       <div class="bottom-left">
         <div class="logo">
           <img src="./assets/typa dark.png" alt="Typa Icon" class="logo-icon" />
           Typa<span class="logo-cursor"></span>
         </div>
 
+        <h1 class="headline">Typing practice, reimagined for Mac.</h1>
+
         <p class="description">
-          A fast and lightweight typing<br/>
-          practice app built natively for<br/>
-          macOS. Open source, forever.
+          A fast and lightweight typing practice app built natively for macOS. Open source, forever.
         </p>
 
         <div class="cta-row">
@@ -116,12 +124,12 @@ const toggleAbout = () => {
         </div>
       </div>
 
-      <div class="bottom-right">
+      <nav class="bottom-right">
         <button @click="toggleAbout" class="social-link">Why Typa</button>
         <a href="https://github.com/dan-squared/typa" target="_blank" class="social-link">GitHub</a>
         <a href="https://x.com/Dan_cubed" target="_blank" class="social-link">X</a>
-      </div>
-    </section>
+      </nav>
+    </footer>
 
     <!-- Why Typa Overlay -->
     <div v-if="isAboutOpen" class="about-overlay">
@@ -149,27 +157,36 @@ const toggleAbout = () => {
       <span class="about-footnote">Built for people who care about the craft of typing.</span>
     </div>
 
-  </div>
+  </main>
 </template>
 
 <style scoped>
 /* ─── Cursor ─── */
-.custom-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 12px;
-  height: 12px;
-  background-color: #000000;
-  border-radius: 3px;
-  pointer-events: none;
-  z-index: 10001;
-  transform: translate(-50%, -50%);
-  will-change: transform;
+@media (pointer: fine) {
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    background-color: #000000;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 10001;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+    display: block;
+  }
+
+  :global(*) {
+    cursor: none !important;
+  }
 }
 
-:global(*) {
-  cursor: none !important;
+@media (pointer: coarse) {
+  .custom-cursor {
+    display: none;
+  }
 }
 
 .gallery-item, .bottom-left > *, .bottom-right > * {
@@ -266,6 +283,8 @@ const toggleAbout = () => {
   display: block;
 }
 
+
+
 /* ─── Bottom Section ─── */
 .bottom-section {
   display: flex;
@@ -311,6 +330,16 @@ const toggleAbout = () => {
 @keyframes cursor-blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+.headline {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 .description {
@@ -381,20 +410,55 @@ const toggleAbout = () => {
 
   .gallery {
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-snap-type: x mandatory;
-    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 8px;
   }
-  
+
   .gallery::-webkit-scrollbar {
     display: none;
   }
 
+  /* Hide the duplicate set used for the desktop infinite loop */
+  .gallery-set + .gallery-set {
+    display: none;
+  }
+
+  .gallery-inner {
+    display: flex;
+    align-items: center;
+    height: auto;
+  }
+
+  .gallery-set {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 12px;
+    height: auto;
+  }
+
   .gallery-item {
-    flex: 0 0 85%;
-    width: auto;
-    min-height: 320px;
+    flex: 0 0 75vw;
+    width: 75vw;
+    height: auto;
+    aspect-ratio: 3420 / 2150;
     scroll-snap-align: center;
+    overflow: hidden;
+    border-radius: 0;
+    background-color: var(--card-bg);
+  }
+
+  .gallery-item img,
+  .gallery-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
   }
 
   .bottom-section {
@@ -407,35 +471,67 @@ const toggleAbout = () => {
 
 @media (max-width: 640px) {
   .page {
-    padding: 16px;
-    gap: 16px;
-  }
-
-  .gallery-item {
-    flex: 0 0 90%;
-    width: auto;
-    min-height: 100%; /* Fill available height */
-  }
-
-  .gallery {
+    padding: 12px;
     gap: 12px;
   }
 
+  .gallery {
+    margin: 0 -12px;
+  }
+
+  .gallery-set {
+    gap: 10px;
+    padding: 0 16px;
+  }
+
+  .gallery-item {
+    flex: 0 0 calc(100vw - 48px);
+    width: calc(100vw - 48px);
+    border-radius: 0;
+  }
+
+  .gallery-item img,
+  .gallery-item video {
+    border-radius: 0;
+  }
+
   .bottom-section {
-    gap: 24px;
+    gap: 20px;
+    padding: 20px 8px 12px;
+  }
+
+  .bottom-left {
+    gap: 14px;
   }
 
   .bottom-right {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    gap: 24px;
   }
 
   .logo {
-    font-size: 24px;
+    font-size: 30px;
   }
 
   .description {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .download-btn {
+    padding: 14px 28px;
+    font-size: 15px;
+    border-radius: 12px;
+  }
+
+  .version-tag {
     font-size: 14px;
+    padding: 6px 14px;
+  }
+
+  .social-link {
+    font-size: 16px;
   }
 }
 
