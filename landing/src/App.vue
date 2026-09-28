@@ -1,54 +1,12 @@
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import gsap from 'gsap'
 
-const customCursor = ref(null)
 const isAboutOpen = ref(false)
 const isMobile = ref(false)
-let removeCursorListeners = () => {}
 
 onMounted(() => {
   isMobile.value = window.matchMedia('(max-width: 1024px)').matches || ('ontouchstart' in window)
-
-  const cursorMedia = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1025px)')
-  const cursorElement = customCursor.value
-  if (cursorMedia.matches && cursorElement) {
-    let cursorFrame = 0
-    let pointerX = 0
-    let pointerY = 0
-
-    const handlePointerMove = (event) => {
-      if (event.pointerType !== 'mouse') return
-
-      pointerX = event.clientX
-      pointerY = event.clientY
-      cursorElement.classList.add('is-visible')
-
-      if (!cursorFrame) {
-        cursorFrame = requestAnimationFrame(() => {
-          cursorElement.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0) translate(-50%, -50%)`
-          cursorFrame = 0
-        })
-      }
-    }
-
-    const hideCursor = () => {
-      if (cursorFrame) cancelAnimationFrame(cursorFrame)
-      cursorFrame = 0
-      cursorElement.classList.remove('is-visible')
-    }
-
-    window.addEventListener('pointermove', handlePointerMove, { passive: true })
-    window.addEventListener('pointerleave', hideCursor)
-    window.addEventListener('blur', hideCursor)
-
-    removeCursorListeners = () => {
-      window.removeEventListener('pointermove', handlePointerMove)
-      window.removeEventListener('pointerleave', hideCursor)
-      window.removeEventListener('blur', hideCursor)
-      hideCursor()
-    }
-  }
 
   nextTick(() => {
     const reveal = gsap.timeline({ defaults: { ease: 'power3.out', force3D: true } })
@@ -94,8 +52,6 @@ onMounted(() => {
   })
 })
 
-onUnmounted(() => removeCursorListeners())
-
 const toggleAbout = () => {
   isAboutOpen.value = !isAboutOpen.value
   if (isAboutOpen.value) {
@@ -105,9 +61,6 @@ const toggleAbout = () => {
 </script>
 
 <template>
-  <!-- Custom Cursor -->
-  <div ref="customCursor" class="custom-cursor"></div>
-
   <!-- Main -->
   <main class="page">
 
@@ -192,36 +145,6 @@ const toggleAbout = () => {
 </template>
 
 <style scoped>
-/* ─── Cursor ─── */
-.custom-cursor {
-  display: none;
-}
-
-@media (hover: hover) and (pointer: fine) and (min-width: 1025px) {
-  .custom-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 12px;
-    height: 12px;
-    background-color: #000000;
-    border-radius: 3px;
-    pointer-events: none;
-    z-index: 10001;
-    transform: translate(-50%, -50%);
-    will-change: transform;
-    opacity: 0;
-  }
-
-  .custom-cursor.is-visible {
-    opacity: 1;
-  }
-
-  :global(*) {
-    cursor: none !important;
-  }
-}
-
 .gallery-item, .bottom-left > *, .bottom-right > * {
   opacity: 0;
   will-change: transform, opacity;
