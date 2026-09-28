@@ -1,24 +1,53 @@
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import gsap from 'gsap'
 
 const customCursor = ref(null)
 const isAboutOpen = ref(false)
 const isMobile = ref(false)
+let removeCursorListeners = () => {}
 
 onMounted(() => {
   isMobile.value = window.matchMedia('(max-width: 1024px)').matches || ('ontouchstart' in window)
 
-  // Custom Cursor: only if not mobile and has a fine pointer
-  const hasFinePointer = window.matchMedia('(pointer: fine)').matches
-  if (!isMobile.value && hasFinePointer) {
-    const xTo = gsap.quickTo(customCursor.value, "x", { duration: 0.3, ease: "power3" })
-    const yTo = gsap.quickTo(customCursor.value, "y", { duration: 0.3, ease: "power3" })
+  const cursorMedia = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1025px)')
+  const cursorElement = customCursor.value
+  if (cursorMedia.matches && cursorElement) {
+    let cursorFrame = 0
+    let pointerX = 0
+    let pointerY = 0
 
-    window.addEventListener('mousemove', (e) => {
-      xTo(e.clientX)
-      yTo(e.clientY)
-    })
+    const handlePointerMove = (event) => {
+      if (event.pointerType !== 'mouse') return
+
+      pointerX = event.clientX
+      pointerY = event.clientY
+      cursorElement.classList.add('is-visible')
+
+      if (!cursorFrame) {
+        cursorFrame = requestAnimationFrame(() => {
+          cursorElement.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0) translate(-50%, -50%)`
+          cursorFrame = 0
+        })
+      }
+    }
+
+    const hideCursor = () => {
+      if (cursorFrame) cancelAnimationFrame(cursorFrame)
+      cursorFrame = 0
+      cursorElement.classList.remove('is-visible')
+    }
+
+    window.addEventListener('pointermove', handlePointerMove, { passive: true })
+    window.addEventListener('pointerleave', hideCursor)
+    window.addEventListener('blur', hideCursor)
+
+    removeCursorListeners = () => {
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerleave', hideCursor)
+      window.removeEventListener('blur', hideCursor)
+      hideCursor()
+    }
   }
 
   nextTick(() => {
@@ -64,6 +93,8 @@ onMounted(() => {
     }
   })
 })
+
+onUnmounted(() => removeCursorListeners())
 
 const toggleAbout = () => {
   isAboutOpen.value = !isAboutOpen.value
@@ -162,7 +193,11 @@ const toggleAbout = () => {
 
 <style scoped>
 /* ─── Cursor ─── */
-@media (pointer: fine) {
+.custom-cursor {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 1025px) {
   .custom-cursor {
     position: fixed;
     top: 0;
@@ -175,17 +210,15 @@ const toggleAbout = () => {
     z-index: 10001;
     transform: translate(-50%, -50%);
     will-change: transform;
-    display: block;
+    opacity: 0;
+  }
+
+  .custom-cursor.is-visible {
+    opacity: 1;
   }
 
   :global(*) {
     cursor: none !important;
-  }
-}
-
-@media (pointer: coarse) {
-  .custom-cursor {
-    display: none;
   }
 }
 
